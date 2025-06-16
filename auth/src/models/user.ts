@@ -18,11 +18,20 @@ interface UserDoc extends mongoose.Document {
 const userSchema = new mongoose.Schema({
   email: {
     type: String,
-    require: true
+    required: true
   },
   password: {
     type: String,
     required: true
+  }
+}, {
+  toJSON: {
+    transform(doc: any, ret: any) {
+      ret.id = ret._id;
+      delete ret._id;
+      delete ret.password;
+      delete ret.__v;
+    }
   }
 });
 
